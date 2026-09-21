@@ -22,7 +22,7 @@
       if (raw) {
         const obj = JSON.parse(raw);
         if (obj && typeof obj === 'object') {
-          state.seats = (obj.seats && typeof obj.seats === 'object') ? obj.seats : {};
+          state.seats = cleanSeats((obj.seats && typeof obj.seats === 'object') ? obj.seats : {});
           state.updatedAt = obj.updatedAt || null;
         }
       }
@@ -59,7 +59,20 @@
   }
 
   /* ---------------- 집계 ---------------- */
-  function attended(id) { return !!(state.seats[id] && state.seats[id].trim()); }
+  const NO_SEAT = '0000';   // 좌석 미기재: 관람으로 집계되지만 좌석배치도에는 표시하지 않음
+  function normalizeSeat(str) {
+    const v = (str || '').trim();
+    if (!v) return '';
+    if (v === NO_SEAT) return NO_SEAT;
+    const p = parseSeat(v);
+    return p ? p.key : null;          // null = 형식이 틀리거나 없는 좌석
+  }
+  function attended(id) { return normalizeSeat(state.seats[id]) != null && normalizeSeat(state.seats[id]) !== ''; }
+  function cleanSeats(seats) {        // 저장/불러오기 시 유효하지 않은 값 제거
+    const out = {};
+    Object.entries(seats || {}).forEach(([k, v]) => { const n = normalizeSeat(v); if (n) out[k] = n; });
+    return out;
+  }
 
   function computeStats() {
     const perActor = {};   // 'roleKey:actor' -> {total, seen}
@@ -177,7 +190,7 @@
       const dcls = r.mat ? 'mat' : (r.hol || r.w === '일') ? 'sun' : r.w === '토' ? 'sat' : '';
       html += `<tr data-id="${r.id}" class="${seen ? 'seen' : ''}">${bandCell(p[0])}${bandCell(p[1])}`;
       const val = state.seats[r.id] || '';
-      const cls = val.trim() ? (parseSeat(val) ? 'filled' : 'filled invalid') : '';
+      const cls = val.trim() ? (normalizeSeat(val) ? 'filled' : 'invalid') : '';
       const tagsHtml = (r.tags || []).map(t => `<span class="tag" style="background:${TAGS[t].color}">${esc(TAGS[t].label)}</span>`).join('');
       const seatInput = extra => `<input class="seat-input${extra}${cls ? ' ' + cls : ''}" data-id="${r.id}" value="${esc(val)}" placeholder="1F-OP-1-8" autocomplete="off" spellcheck="false">`;
       html += `<td class="cell date ${dcls}"><div class="dt"><span class="d">${esc(r.d)}</span><span class="w">${esc(r.w)}</span><span class="t">${esc(r.t)}</span></div>${tagsHtml ? `<div class="d-tags">${tagsHtml}</div>` : ''}</td>`;
@@ -410,14 +423,23 @@
       try {
         const obj = JSON.parse(reader.result);
         if (!obj || typeof obj !== 'object' || !obj.seats || typeof obj.seats !== 'object') throw new Error('형식이 맞지 않습니다');
-        const n = Object.values(obj.seats).filter(v => typeof v === 'string' && v.trim()).length;
+        const cleaned = cleanSeats(obj.seats);
+        const n = Object.keys(cleaned).length;
         if (!confirm(`불러온 데이터(관람 ${n}회)로 현재 기록을 덮어씁니다. 계속할까요?`)) return;
-        state.seats = {};
-        Object.entries(obj.seats).forEach(([k, v]) => { if (typeof v === 'string' && v.trim()) state.seats[k] = v.trim(); });
+        state.seats = cleaned;
         save(); renderSchedule(); renderPosters();
       } catch (e) { alert('JSON을 읽을 수 없습니다: ' + e.message); }
     };
     reader.readAsText(file);
+  }
+
+  /* ---------------- 안내 토스트 ---------------- */
+  let toastTimer = null;
+  function toast(msg) {
+    let el = $('#toast');
+    if (!el) { el = document.createElement('div'); el.id = 'toast'; document.body.appendChild(el); }
+    el.textContent = msg; el.classList.add('on');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), 3200);
   }
 
   /* ---------------- 이벤트 ---------------- */
@@ -435,20 +457,31 @@
       const inp = e.target.closest('.seat-input'); if (!inp) return;
       const id = inp.dataset.id, v = inp.value;
       if (v.trim()) state.seats[id] = v; else delete state.seats[id];
+      const ok = !!normalizeSeat(v);
       const tr = inp.closest('tr');
-      tr.classList.toggle('seen', !!v.trim());
+      tr.classList.toggle('seen', ok);
       $$('.seat-input', tr).forEach(el => {
         if (el !== inp) el.value = v;
-        el.classList.toggle('filled', !!v.trim());
-        el.classList.toggle('invalid', !!v.trim() && !parseSeat(v));
+        el.classList.toggle('filled', ok);
+        el.classList.toggle('invalid', !!v.trim() && !ok);
       });
       save();
       clearTimeout(bind._t); bind._t = setTimeout(renderPosters, 200);
     });
     table.addEventListener('change', e => {
       const inp = e.target.closest('.seat-input'); if (!inp) return;
-      const p = parseSeat(inp.value);
-      if (p) { $$('.seat-input', inp.closest('tr')).forEach(el => { el.value = p.key; }); state.seats[inp.dataset.id] = p.key; save(); }
+      const tr = inp.closest('tr'), id = inp.dataset.id;
+      const n = normalizeSeat(inp.value);
+      if (n) {                                   // 유효한 좌석 또는 0000 → 정리해서 저장
+        $$('.seat-input', tr).forEach(el => { el.value = n; el.classList.add('filled'); el.classList.remove('invalid'); });
+        state.seats[id] = n; tr.classList.add('seen'); save();
+      } else if (n === null) {                   // 형식이 틀리거나 없는 좌석 → 삭제
+        const bad = inp.value.trim();
+        $$('.seat-input', tr).forEach(el => { el.value = ''; el.classList.remove('filled', 'invalid'); });
+        delete state.seats[id]; tr.classList.remove('seen'); save();
+        toast(`'${bad}' 은(는) 없는 좌석이라 삭제했습니다. 층-구역-열-번호 (예: 1F-OP-1-8), 좌석 미기재는 0000`);
+      }
+      clearTimeout(bind._t); bind._t = setTimeout(renderPosters, 100);
     });
     table.addEventListener('keydown', e => {
       if (e.key !== 'Enter' || !e.target.classList.contains('seat-input')) return;

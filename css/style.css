@@ -144,7 +144,14 @@ h2 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: .04
 .seat-input::placeholder { color: #b0b0b0; text-transform: none; letter-spacing: 0; font-weight: 400; }
 .seat-input:focus { outline: none; border-color: var(--logo-red); box-shadow: 0 0 0 2px rgba(128, 0, 24, .18); }
 .seat-input.filled { border-color: var(--logo-red); color: var(--logo-red); font-weight: 700; }
-.seat-input.invalid { border-color: #d98700; background: #fff5e3; color: #9a5b00; }
+.seat-input.invalid { border-color: #d98700; background: #fff5e3; color: #9a5b00; font-weight: 500; }
+#toast {
+  position: fixed; left: 50%; bottom: 28px; z-index: 50; transform: translateX(-50%);
+  max-width: calc(100vw - 32px); padding: 10px 16px; border: 1px solid #a3223f; border-radius: 4px;
+  background: rgba(20, 8, 10, .96); color: #fff; font-size: 13px; line-height: 1.5; text-align: center;
+  opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+#toast.on { opacity: 1; }
 
 /* 왼쪽 세로 밴드 */
 .sched td.band, .sched th.band { width: 22px; min-width: 22px; padding: 0 1px; }
@@ -343,9 +350,9 @@ h2 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: .04
 .m-bottom .p-total.compact .p-total-num .of { font-size: 38px; }
 
 .site-footer { padding: 34px 16px 44px; text-align: center; font-family: var(--serif); color: var(--dim); }
-.site-footer .t1 { font-size: 19px; font-weight: 500; letter-spacing: .3em; color: var(--ivory); }
-.site-footer .t2 { margin-top: 5px; font-size: 15px; letter-spacing: .12em; }
-.site-footer .t3 { margin-top: 12px; font-family: var(--sans); font-size: 10px; line-height: 1.8; letter-spacing: .28em; }
+.site-footer .t1 { font-size: 17px; font-weight: 500; letter-spacing: .3em; color: var(--ivory); }
+.site-footer .t2 { margin-top: 4px; font-size: 13.5px; letter-spacing: .12em; }
+.site-footer .t3 { margin-top: 11px; font-family: var(--sans); font-size: 9.5px; line-height: 1.8; letter-spacing: .28em; }
 .site-footer .t3 br { display: none; }
 @media (max-width: 760px) { .site-footer .t3 br { display: inline; } .site-footer .t3 .dot { display: none; } }
 
