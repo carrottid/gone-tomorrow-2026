@@ -11,14 +11,23 @@
 ```
 site/
 ├── index.html
+├── manifest.webmanifest     안드로이드 홈 화면 아이콘·이름
 ├── css/style.css
-├── js/data.js      ← 캐스트·회차·좌석배치 데이터 (일정 추가는 여기)
+├── js/data.js               ← 캐스트·회차·좌석배치 데이터 (일정 추가는 여기)
 ├── js/app.js
 └── images/
-    ├── logo.png             로고 (있음)
+    ├── logo.png             로고 (글자 흰색으로 보정한 버전)
+    ├── logo-mark.png        로고에서 글자를 뺀 붓글씨만 (빨강)
+    ├── logo-mark-white.png  붓글씨만 (흰색) — 아이콘 원본
+    ├── icon-32.png          브라우저 탭 파비콘
+    ├── icon-180.png         아이폰 홈 화면 아이콘 (apple-touch-icon)
+    ├── icon-192.png         안드로이드 홈 화면 아이콘
+    ├── icon-512.png         안드로이드 스플래시·고해상도 아이콘
     ├── bg-settlement.png    정산표 배경 텍스처 (추가 필요, 없으면 검정)
     └── cast/                배우 사진 (jpg, 640×870)
 ```
+
+아이콘은 모두 검은 정사각형 바탕에 흰색 붓글씨입니다. 홈 화면 이름은 `index.html`의 `apple-mobile-web-app-title`과 `manifest.webmanifest`의 `short_name`("곤투 정산판")에서 바꿉니다. 아이콘을 바꾼 뒤에는 이미 홈 화면에 추가된 아이콘은 지우고 다시 추가해야 새 아이콘이 보입니다.
 
 ## 이미지 파일 규격
 
