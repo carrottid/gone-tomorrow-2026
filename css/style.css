@@ -152,6 +152,8 @@ h2 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: .04
   opacity: 0; pointer-events: none; transition: opacity .2s;
 }
 #toast.on { opacity: 1; }
+#toast br.m { display: none; }                      /* 모바일에서만 줄바꿈 */
+@media (max-width: 760px) { #toast br.m { display: inline; } }
 
 /* 왼쪽 세로 밴드 */
 .sched td.band, .sched th.band { width: 22px; min-width: 22px; padding: 0 1px; }

@@ -440,7 +440,7 @@
   function toast(msg) {
     let el = $('#toast');
     if (!el) { el = document.createElement('div'); el.id = 'toast'; document.body.appendChild(el); }
-    el.textContent = msg; el.classList.add('on');
+    el.innerHTML = msg; el.classList.add('on');
     clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), 3200);
   }
 
@@ -481,7 +481,7 @@
         const bad = inp.value.trim();
         $$('.seat-input', tr).forEach(el => { el.value = ''; el.classList.remove('filled', 'invalid'); });
         delete state.seats[id]; tr.classList.remove('seen'); save();
-        toast(`'${bad}' 은(는) 없는 좌석이라 삭제했습니다. 층-구역-열-번호 (예: 1F-OP-1-8), 좌석 미기재는 0000`);
+        toast('잘못된 형식입니다. <br class="m">다시 입력해 주십시오.');
       }
       clearTimeout(bind._t); bind._t = setTimeout(renderPosters, 100);
     });
