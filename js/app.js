@@ -373,8 +373,10 @@
     $$('.poster-viewport').forEach(vp => {
       const poster = $('.poster', vp);
       const w = +vp.dataset.w;
+      vp.style.width = '';                                   // 사용 가능한 폭을 먼저 재고
       const scale = Math.min(1, vp.clientWidth / w);
       poster.style.transform = `scale(${scale})`;
+      vp.style.width = Math.round(w * scale) + 'px';         // 축소된 정산판 폭에 맞춰 가운데 정렬 (margin: 0 auto)
       vp.style.height = Math.ceil(poster.offsetHeight * scale) + 'px';
     });
   }
