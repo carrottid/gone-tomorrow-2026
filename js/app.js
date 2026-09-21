@@ -419,13 +419,32 @@
     const d = new Date(), ymd = d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
     downloadBlob(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }), `곤투모로우-정산-${ymd}.json`);
   }
+  /* 지원하는 JSON 형식
+     1) 이 사이트의 저장 파일: { seats: { "0915-1930": "1F-B-9-8", ... } }
+     2) 회차 목록 배열: [ { sid: "0915-1930", ..., seats: ["1F-A-5-3"] }, ... ]  (seats 배열의 첫 좌석 사용, 비어 있으면 미관람) */
+  const KNOWN_IDS = new Set(SHOWS.map(s => s.id));
+  function seatsFromAnyJson(obj) {
+    if (Array.isArray(obj)) {
+      const out = {};
+      obj.forEach(item => {
+        if (!item || typeof item !== 'object' || !KNOWN_IDS.has(item.sid)) return;
+        const list = Array.isArray(item.seats) ? item.seats : (typeof item.seats === 'string' ? [item.seats] : []);
+        const first = list.find(v => typeof v === 'string' && v.trim());
+        if (first) out[item.sid] = first.trim();
+      });
+      return out;
+    }
+    if (obj && typeof obj === 'object' && obj.seats && typeof obj.seats === 'object' && !Array.isArray(obj.seats)) return obj.seats;
+    return null;
+  }
   function importJson(file) {
     const reader = new FileReader();
     reader.onload = () => {
       try {
         const obj = JSON.parse(reader.result);
-        if (!obj || typeof obj !== 'object' || !obj.seats || typeof obj.seats !== 'object') throw new Error('형식이 맞지 않습니다');
-        const cleaned = cleanSeats(obj.seats);
+        const raw = seatsFromAnyJson(obj);
+        if (!raw) throw new Error('형식이 맞지 않습니다');
+        const cleaned = cleanSeats(raw);
         const n = Object.keys(cleaned).length;
         if (!confirm(`불러온 데이터(관람 ${n}회)로 현재 기록을 덮어씁니다. 계속할까요?`)) return;
         state.seats = cleaned;
