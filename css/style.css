@@ -173,8 +173,14 @@ h2 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: .04
 }
 .sched-note { margin: 18px 4px 0; font-size: 12px; line-height: 1.7; color: rgba(255, 255, 255, .85); text-align: center; }
 .sched-note b { color: var(--gold); }
+.sched-note .ni { display: block; }
 .sched-note br.m { display: none; }                 /* 모바일에서만 문장 끝마다 줄바꿈 */
-@media (max-width: 760px) { .sched-note br.m { display: inline; } }
+@media (max-width: 760px) {
+  .sched-note { text-align: left; padding: 0 6px; }
+  .sched-note .ni { padding-left: 1.3em; text-indent: -1.3em; }   /* ※ 다음 줄은 글자 시작선에 맞춤 */
+  .sched-note .ni + .ni { margin-top: 9px; }                         /* 항목 사이 간격 > 같은 항목 안 줄 간격 */
+  .sched-note br.m { display: inline; }
+}
 
 /* ───────── 정산표 공통 ───────── */
 .poster-section { padding: 30px 12px 10px; }
