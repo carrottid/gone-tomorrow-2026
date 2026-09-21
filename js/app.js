@@ -249,7 +249,7 @@
     const f1 = SEATMAP['1F'].sections, f2 = SEATMAP['2F'].sections;
     const wA = f1.A.cols * P, wB = f1.B.cols * P, wC = f1.C.cols * P;
     const xA = LBL, xB = xA + wA + SEC_GAP, xC = xB + wB + SEC_GAP;
-    const W = xC + wC + LBL;   // 좌우 대칭 (왼쪽은 층 라벨 자리)
+    const W = xC + wC + 1;     // 오른쪽 여백 없이 → 배치도 오른쪽 끝이 사진 오른쪽 끝과 맞음
     // STAGE
     let y = 0;
     out += `<rect class="stage" x="${xA}" y="${y}" width="${xC + wC - xA}" height="22" rx="2"/>`;

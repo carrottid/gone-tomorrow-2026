@@ -288,7 +288,7 @@ h2 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: .04
 .poster-a .p-group.ens .p-group-title span { font-size: 20px; }
 .poster-a .p-group.ens .p-group-title { margin-bottom: 10px; }
 .poster-a .p-group.ens .p-row { gap: 7px; margin-bottom: 10px; justify-content: center; }
-.poster-a .p-group.ens .p-actor { width: 45px; }
+.poster-a .p-group.ens .p-actor { width: 48px; }
 .poster-a .p-group.ens .p-name { font-size: 11.5px; margin-top: 4px; letter-spacing: 0; }
 .poster-a .p-group.ens .p-role { font-size: 9px; margin-top: 5px; min-height: 9px; }
 .poster-a .p-group.ens .p-photo .ph { font-size: 9px; }
