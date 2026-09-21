@@ -61,10 +61,15 @@ site/
 
 ## GitHub Pages 배포
 
-1. GitHub에서 새 저장소 생성 (예: `gone-tomorrow-2026`, Public)
-2. 이 `site/` 폴더 안의 파일 전부를 저장소 루트에 업로드 (웹에서 "Add file → Upload files" 드래그 앤 드롭 가능)
-3. 저장소 **Settings → Pages → Build and deployment**: Source = *Deploy from a branch*, Branch = `main` / `/ (root)` → Save
-4. 1~2분 뒤 `https://<계정>.github.io/<저장소명>/` 에서 접속
+현재 저장소: `carrottid/gone-tomorrow-2026` → https://carrottid.github.io/gone-tomorrow-2026/
+
+배포는 `.github/workflows/pages.yml`(GitHub Actions)이 담당합니다. `main`에 올리면 자동으로 배포되고, 1~2분 걸립니다. 저장소 **Settings → Pages → Source**는 *GitHub Actions*여야 합니다 (기본 Jekyll 빌드는 이 저장소에서 원인 불명의 "Page build failed"가 나서 사용하지 않음).
+
+새 저장소에 옮길 때:
+1. GitHub에서 새 저장소 생성 (Public)
+2. 이 `site/` 폴더 안의 파일 전부를 저장소 루트에 업로드 (`.github/workflows/pages.yml` 포함)
+3. **Settings → Pages → Source = GitHub Actions**
+4. `https://<계정>.github.io/<저장소명>/` 에서 접속
 
 이후 사진이나 데이터를 바꿀 때는 해당 파일만 다시 업로드하면 됩니다. CSS/JS를 바꿨을 때는 `index.html`의 `?v=숫자`를 올려야 방문자 브라우저 캐시가 갱신됩니다 (API 업로드 스크립트는 자동으로 올림).
 
