@@ -207,7 +207,7 @@ h2 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: .04
 /* 제작자 표기 (세리프 이탤릭, 아주 옅은 금색) */
 .p-credit { font-family: 'Cormorant Garamond', 'Noto Serif KR', serif; font-style: italic; font-weight: 500; font-size: 17px; letter-spacing: .02em; color: rgba(241, 208, 158, .2); text-align: right; line-height: 1; white-space: nowrap; }
 .poster-a .p-head { position: relative; }
-.poster-a .p-credit { position: absolute; right: 0; bottom: -31px; }    /* 김옥균 제목선 바로 위에 붙임 */
+.poster-a .p-credit { position: absolute; right: 0; bottom: -38px; }    /* 김옥균 제목선 바로 위에 붙임 */
 .poster-b .p-credit { margin-bottom: 2px; }                             /* 와다 아래 구분선 바로 위 */
 .poster-b .m-bottom { padding-top: 14px; }
 
