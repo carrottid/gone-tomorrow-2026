@@ -204,12 +204,12 @@ h2 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: .04
 .poster .p-logo { margin: 0 auto; }
 .poster .venue { margin: 0 auto; font-size: 22px; letter-spacing: .16em; }
 
-/* 제작자 표기 (필기체, 옅은 금색) */
-.p-credit { font-family: 'Great Vibes', 'Noto Serif KR', cursive; font-size: 17px; letter-spacing: .02em; color: rgba(241, 208, 158, .38); text-align: right; line-height: 1; white-space: nowrap; }
+/* 제작자 표기 (세리프 이탤릭, 아주 옅은 금색) */
+.p-credit { font-family: 'Cormorant Garamond', 'Noto Serif KR', serif; font-style: italic; font-weight: 500; font-size: 17px; letter-spacing: .02em; color: rgba(241, 208, 158, .2); text-align: right; line-height: 1; white-space: nowrap; }
 .poster-a .p-head { position: relative; }
-.poster-a .p-credit { position: absolute; right: 0; bottom: -20px; }     /* 김옥균 제목선 바로 위 */
-.m-head { position: relative; }
-.m-head .p-credit { position: absolute; right: 0; bottom: -3px; }       /* 고종 칸 바로 위, 오른쪽 끝 정렬 */
+.poster-a .p-credit { position: absolute; right: 0; bottom: -31px; }    /* 김옥균 제목선 바로 위에 붙임 */
+.poster-b .p-credit { margin-bottom: 2px; }                             /* 와다 아래 구분선 바로 위 */
+.poster-b .m-bottom { padding-top: 14px; }
 
 /* 사진 슬롯 */
 .p-photo {
