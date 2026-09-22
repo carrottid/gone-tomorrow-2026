@@ -211,6 +211,7 @@ h2 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: .04
 /* html2canvas가 글자를 브라우저보다 아래에 그려 제목선과 겹치므로, 내보낼 때만 위로 올림 */
 .poster-a.exporting .p-credit { bottom: -29px; }
 .poster-b .p-credit { margin-bottom: 2px; }                             /* 와다 아래 구분선 바로 위 */
+.poster-b.exporting .p-credit { position: relative; top: -13px; }       /* 내보낼 때 구분선과 겹치지 않게 */
 .poster-b .m-bottom { padding-top: 14px; }
 
 /* 사진 슬롯 */
