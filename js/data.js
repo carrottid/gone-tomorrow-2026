@@ -32,7 +32,7 @@ const TAGS = {
   special:    { label: '스페셜 커튼콜', color: '#8e6f92' },
   firstGreet: { label: '첫공 무대 인사', color: '#853b56' },
   lastGreet:  { label: '막공 무대 인사', color: '#5a6f8b' },
-  gday:       { label: '그래이공DAY',   color: '#8a7a45' },   // 혜화로운 공연생활 × YES24 전관
+  gday:       { label: '그래이공DAY',   color: '#585657' },   // 혜화로운 공연생활 × YES24 전관 (안내 이미지의 진회색)
 };
 
 /* 왼쪽 세로 밴드. col 0 = 바깥쪽, col 1 = 안쪽. from/to = 회차 id (포함) */
