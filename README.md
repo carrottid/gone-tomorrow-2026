@@ -56,7 +56,7 @@ site/
 
 - `id`는 `MMDD-HHMM` 형식. 좌석 저장 키로 쓰이므로 한 번 정하면 바꾸지 마세요.
 - `first` / `last`: 첫공·막공 뱃지를 붙일 역할 인덱스 (0 김옥균, 1 한정훈, 2 고종, 3 이완, 4 와다)
-- `tags`: `sign`(사인회) `special`(스페셜 커튼콜) `firstGreet`(첫공 무대 인사) `lastGreet`(막공 무대 인사)
+- `tags`: `sign`(사인회) `special`(스페셜 커튼콜) `firstGreet`(첫공 무대 인사) `lastGreet`(막공 무대 인사) `gday`(그래이공DAY). 새 태그는 `TAGS`에 이름·색을 추가하면 됨
 - `mat`: 마티네, `hol`: 공휴일(날짜 빨강)
 
 ## GitHub Pages 배포
