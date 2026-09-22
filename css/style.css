@@ -204,6 +204,12 @@ h2 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: .04
 .poster .p-logo { margin: 0 auto; }
 .poster .venue { margin: 0 auto; font-size: 22px; letter-spacing: .16em; }
 
+/* 제작자 표기 */
+.p-credit { font-family: var(--sans); font-size: 11px; letter-spacing: .06em; color: rgba(241, 208, 158, .55); text-align: right; }
+.poster-a .p-credit { margin-top: -14px; padding-bottom: 4px; }
+.m-head { position: relative; }
+.m-head .p-credit { position: absolute; right: 0; bottom: 2px; }
+
 /* 사진 슬롯 */
 .p-photo {
   position: relative; width: 100%; aspect-ratio: 640 / 870; overflow: hidden;  /* NOL 캐스트 사진과 같은 비율 */

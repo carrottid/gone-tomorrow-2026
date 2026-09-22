@@ -33,7 +33,7 @@ site/
 
 | 파일 | 내용 | 규격 |
 |---|---|---|
-| `images/bg-settlement.png` | 정산표 배경 | **1080 × 2140px** (기본 정산판 기준). 페어 정산판(1500 × 1026px)에도 같은 파일이 `cover`로 깔리므로 가운데가 중요한 무늬면 양쪽 다 확인 |
+| `images/bg-settlement.png` | 정산표 배경 | **1080 × 2150px** (기본 정산판 기준). 페어 정산판(1500 × 1026px)에도 같은 파일이 `cover`로 깔리므로 가운데가 중요한 무늬면 양쪽 다 확인 |
 | `images/cast/okgyun-1.jpg` ~ `okgyun-6.jpg` | 강필석, 최재웅, 김경수, 송원근, 고훈정, 손동운 | 전부 **640 × 870px** (NOL 캐스트 사진과 같은 비율·구도) |
 | `images/cast/jeonghun-1.jpg` ~ `jeonghun-6.jpg` | 김재범, 신성민, 백형훈, 윤소호, 원태민, 문유강 | " |
 | `images/cast/gojong-1.jpg` ~ `gojong-3.jpg` | 고영빈, 박영수, 김준수 | " |
