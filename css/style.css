@@ -208,10 +208,7 @@ h2 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: .04
 .p-credit { font-family: 'Cormorant Garamond', 'Noto Serif KR', serif; font-style: italic; font-weight: 500; font-size: 17px; letter-spacing: .02em; color: rgba(241, 208, 158, .2); text-align: right; line-height: 1; white-space: nowrap; }
 .poster-a .p-head { position: relative; }
 .poster-a .p-credit { position: absolute; right: 0; bottom: -38px; }    /* 김옥균 제목선 바로 위에 붙임 */
-/* html2canvas가 글자를 브라우저보다 아래에 그려 제목선과 겹치므로, 내보낼 때만 위로 올림 */
-.poster-a.exporting .p-credit { bottom: -29px; }
-.poster-b .p-credit { margin-bottom: 2px; }                             /* 와다 아래 구분선 바로 위 */
-.poster-b.exporting .p-credit { position: relative; top: -13px; }       /* 내보낼 때 구분선과 겹치지 않게 */
+.poster-b .p-credit { margin-bottom: 6px; }                             /* 와다 아래 구분선 바로 위 */
 .poster-b .m-bottom { padding-top: 14px; }
 
 /* 사진 슬롯 */
@@ -365,9 +362,7 @@ h2 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: .04
 .m-bottom { margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(232, 220, 196, .22); }
 .m-bottom .p-total-head { align-items: flex-start; }
 .m-bottom .p-total.compact .p-total-label { margin-top: 0; }
-.m-bottom .p-total.compact .p-total-num { margin-top: 6px; margin-bottom: 7px; } /* 숫자 글리프 하단 = 표 하단 (PNG 기준 측정값) */
-/* html2canvas는 큰 글자를 브라우저보다 아래에 그리므로, 화면에서는 같은 위치로 보이도록 내려줌 (내보내기 시 .exporting 으로 해제) */
-.poster:not(.exporting) .m-bottom .p-total.compact .p-total-num { position: relative; top: 42px; }
+.m-bottom .p-total.compact .p-total-num { margin-top: 30px; margin-bottom: -17px; }   /* 숫자 아래 끝을 표 아래 끝에 맞춤 */ /* 숫자 글리프 하단 = 표 하단 (PNG 기준 측정값) */
 .m-bottom .p-total.compact .p-total-num .seen { font-size: 128px; }
 .m-bottom .p-total.compact .p-total-num .of { font-size: 38px; }
 

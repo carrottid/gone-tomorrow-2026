@@ -381,6 +381,59 @@
     });
   }
 
+  /* ---------------- PNG 저장 ----------------
+     html2canvas는 글꼴의 기준선(baseline)을 자체 프로브로 측정하는데, 한글 세리프 폰트에서
+     실제보다 크게 나와 모든 글자가 약 1/3em 아래로 그려진다. 내보내기 직전에 요소별로
+     (html2canvas가 쓸 기준선 − 브라우저의 실제 기준선)만큼 글자를 위로 올려 보정한다. */
+  const H2C_SMALL_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+  const probeCache = new Map();
+  function h2cBaseline(fontFamily, fontSize) {
+    const key = fontFamily + '|' + fontSize;
+    if (probeCache.has(key)) return probeCache.get(key);
+    const c = document.createElement('div'), img = document.createElement('img'), span = document.createElement('span');
+    c.style.cssText = 'visibility:hidden;margin:0;padding:0;white-space:nowrap;position:absolute;top:0;left:-9999px';
+    c.style.fontFamily = fontFamily; c.style.fontSize = fontSize;
+    document.body.appendChild(c);
+    img.src = H2C_SMALL_IMAGE; img.width = 1; img.height = 1;
+    img.style.cssText = 'margin:0;padding:0;vertical-align:baseline';
+    span.style.cssText = 'margin:0;padding:0';
+    span.style.fontFamily = fontFamily; span.style.fontSize = fontSize;
+    span.appendChild(document.createTextNode('Hidden Text'));
+    c.appendChild(span); c.appendChild(img);
+    const baseline = img.offsetTop - span.offsetTop + 2;
+    c.remove();
+    probeCache.set(key, baseline);
+    return baseline;
+  }
+  const measureCtx = document.createElement('canvas').getContext('2d');
+  function compensateText(root) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: n => n.textContent.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT,
+    });
+    const nodes = [];
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) nodes.push(n);
+    nodes.forEach(node => {
+      const el = node.parentElement;
+      if (!el) return;
+      if (el.namespaceURI !== 'http://www.w3.org/1999/xhtml') return;   // SVG 텍스트(좌석배치도 라벨)는 건드리지 않음
+      const cs = getComputedStyle(el);
+      measureCtx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      const m = measureCtx.measureText(node.textContent);
+      const asc = m.fontBoundingBoxAscent, desc = m.fontBoundingBoxDescent;
+      if (!asc) return;
+      const natural = asc + desc;
+      const lh = cs.lineHeight === 'normal' ? natural : parseFloat(cs.lineHeight);
+      const browserBaseline = (lh - natural) / 2 + asc;          // 브라우저가 그리는 기준선
+      const canvasBaseline = h2cBaseline(cs.fontFamily, cs.fontSize);  // html2canvas가 쓸 기준선
+      const shift = canvasBaseline - browserBaseline;
+      if (Math.abs(shift) < 0.5) return;
+      const wrap = document.createElement('span');
+      wrap.style.cssText = `position:relative;top:${(-shift).toFixed(2)}px`;
+      node.parentNode.replaceChild(wrap, node);
+      wrap.appendChild(node);
+    });
+  }
+
   /* ---------------- PNG 저장 ---------------- */
   async function exportPoster(id, name, btn) {
     const src = document.getElementById(id);
@@ -392,6 +445,7 @@
     clone.classList.add('exporting');
     holder.appendChild(clone);
     document.body.appendChild(holder);
+    compensateText(clone);
     try {
       if (document.fonts && document.fonts.ready) await document.fonts.ready;
       const canvas = await html2canvas(clone, {
