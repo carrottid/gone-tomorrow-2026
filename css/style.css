@@ -208,6 +208,8 @@ h2 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: .04
 .p-credit { font-family: 'Cormorant Garamond', 'Noto Serif KR', serif; font-style: italic; font-weight: 500; font-size: 17px; letter-spacing: .02em; color: rgba(241, 208, 158, .2); text-align: right; line-height: 1; white-space: nowrap; }
 .poster-a .p-head { position: relative; }
 .poster-a .p-credit { position: absolute; right: 0; bottom: -38px; }    /* 김옥균 제목선 바로 위에 붙임 */
+/* html2canvas가 글자를 브라우저보다 아래에 그려 제목선과 겹치므로, 내보낼 때만 위로 올림 */
+.poster-a.exporting .p-credit { bottom: -29px; }
 .poster-b .p-credit { margin-bottom: 2px; }                             /* 와다 아래 구분선 바로 위 */
 .poster-b .m-bottom { padding-top: 14px; }
 
