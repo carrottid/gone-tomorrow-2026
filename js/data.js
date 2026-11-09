@@ -48,6 +48,7 @@ const BANDS = [
   { key: 'lucky',      label: '럭키드로우 · 커튼콜 위크', color: '#194b90', col: 1, from: '1020-1930', to: '1025-1830' },
   { key: 'ostA',       label: '실황 MINI OST 증정 (A ver.)', color: '#30004a', col: 1, from: '1110-1930', to: '1115-1830' },
   { key: 'ostB',       label: '실황 MINI OST 증정 (B ver.)', color: '#30004a', col: 1, from: '1117-1930', to: '1122-1830' },
+  { key: 'lucky2',     label: '럭키드로우',     color: '#20814b', col: 0, from: '1117-1930', to: '1122-1830' },
 ];
 
 /* ---------------------------------------------------------------------
