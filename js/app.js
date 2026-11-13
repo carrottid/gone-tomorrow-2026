@@ -148,7 +148,9 @@
 
   /* ---------------- 스케줄표 ---------------- */
   const ORDER = Object.fromEntries(SCHEDULE.map((r, i) => [r.id, i]));
+  const ROW_BY_ID = Object.fromEntries(SCHEDULE.map(r => [r.id, r]));
   function bandOf(col, id) {
+    if (ROW_BY_ID[id] && ROW_BY_ID[id].off) return null;   // 공연 없는 날은 띠를 끊는다
     const i = ORDER[id];
     return BANDS.find(b => b.col === col && i >= ORDER[b.from] && i <= ORDER[b.to]) || null;
   }
@@ -172,7 +174,7 @@
     const bandCell = p => {
       if (p.skip) return '';
       if (p.empty) return '<td class="band"></td>';
-      const label = p.span >= 3 ? esc(p.band.label) : '';
+      const label = p.span * 46 >= p.band.label.length * 13 ? esc(p.band.label) : '';   // 세로로 글자가 들어갈 높이일 때만 표기
       return `<td class="band" rowspan="${p.span}"><div class="band-in" style="background:${p.band.color}" title="${esc(p.band.label)}"><span>${label}</span></div></td>`;
     };
 
